@@ -1,4 +1,4 @@
-# https://adventofcode.com/2024/day/7 -- Part 1
+# https://adventofcode.com/2024/day/7 -- Part 2
 
 # This is a really bad solution. For a better solution, see part2_smarter.py
 
