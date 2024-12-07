@@ -7,9 +7,9 @@ with open("input.txt") as file:
 	right_list = []
 	
 	for line in file:
-		p = list(map(int, line.split()))
-		left_list.append(p[0])
-		right_list.append(p[1])
+		a, b = map(int, line.split())
+		left_list.append(a)
+		right_list.append(b)
 		
 	counter = Counter(right_list)
 	similarity = sum(n*counter[n] for n in left_list)

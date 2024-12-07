@@ -4,14 +4,13 @@ with open("input.txt") as file:
 	left_list = []
 	right_list = []
 	for line in file:
-		p = list(map(int, line.split()))
-		left_list.append(p[0])
-		right_list.append(p[1])
+		(a, b) = map(int, line.split())
+		left_list.append(a)
+		right_list.append(b)
 		
 	left_list.sort()
 	right_list.sort()
-	pairs = zip(left_list, right_list)
-	distances = [abs(p[0]-p[1]) for p in pairs]
+	distances = [abs(a-b) for a, b in zip(left_list, right_list)]
 	
 	print(f"Distances: {sum(distances)}")
 
