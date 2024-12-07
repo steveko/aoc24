@@ -1,3 +1,5 @@
+# https://adventofcode.com/2024/day/6 -- Part 1
+
 # Directions: (delta_row, delta_column) tuples
 N = (-1, 0)
 S = (1, 0)

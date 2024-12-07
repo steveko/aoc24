@@ -1,4 +1,4 @@
-# https://adventofcode.com/2024/day/4 -- Part 2
+# https://adventofcode.com/2024/day/5 -- Part 2
 
 def index_map(update):
 	index_of = {}
