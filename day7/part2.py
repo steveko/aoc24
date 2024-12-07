@@ -1,3 +1,7 @@
+# https://adventofcode.com/2024/day/7 -- Part 1
+
+# This is a really bad solution. For a better solution, see part2_smarter.py
+
 def solution_exists(total, operands):
 	p = my_range(0, 3**(len(operands)-1), 3) 
 	num_operators = len(operands)-1

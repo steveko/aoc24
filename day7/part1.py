@@ -1,3 +1,7 @@
+# https://adventofcode.com/2024/day/7 -- Part 1
+
+# This is a really bad solution. For a better solution, see part2_smarter.py
+
 def is_valid(total, operands):
 	for i in range(2**(len(operands)-1)):
 		ans = evaluate(operands.copy(), i)
