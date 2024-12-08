@@ -4,7 +4,7 @@ import itertools
 
 def read_file(filename):
 	'''
-	Returns a tuple (antennas, grid) where...
+	Returns a 3-tuple (antennas, row_count, column_count) where...
 	
 	antennas is a dict whose keys are the frequency identifiers (a-z, A-Z, 0-9)
 	and whose values are a list of (row, column) tuples indicating the
@@ -12,49 +12,55 @@ def read_file(filename):
 	
 	e.g. {'0': [(1, 8), (2, 5), (3, 7), (4, 4)], 'A': [(5, 6), (8, 8), (9, 9)]}
 	
-	grid is a dict whose keys are (row, column) tuples and whose value
-	is the character in the grid (either '.' or one of frequency characters)
-	
-	e.g. {(0, 0): '.', (0, 1): '.', (0, 2): '.', ... }
+	row_count is the number of rows in the grid.
+	column_count is the number of columns in the grid.
 	'''
 	with open(filename) as file:
-		grid = {}
 		antennas = {}
+		row_count = 0
 		for row, line in enumerate(file):
+			row_count += 1
+			column_count = 0
 			for col, value in enumerate(line.strip()):
+				column_count += 1
 				if value != '.':
 					if value in antennas:
-						l = antennas[value]
-						l.append((row, col))
+						antennas[value].append((row, col))
 					else:
 						antennas[value] = [(row, col)]
-				grid[(row, col)] = value
-		return (antennas, grid)
-				
-def get_antinodes(c1, c2, grid):
-	'''
-	c1 and c2 are the coords of a pair of antennae.
-	grid is a dictionary whose keys are (row, column) tuples in the grid.
-	Returns the list of coords for the antinodes of that pair of antennae.
-	'''
-	delta = (c1[0]-c2[0], c1[1]-c2[1])
+		return (antennas, row_count, column_count)
 		
+def is_valid(coord, row_count, column_count):
+	r, c = coord
+	return all([r >= 0, c >= 0, r < row_count, c < column_count])
+				
+def get_antinodes(antenna1, antenna2, row_count, column_count):
+	'''
+	antenna1 and antenna2 are the coords of two antennas.
+	row_count and column_count reflect the size of the grid.
+	Returns the list of coords for the antinodes of antenna1 and antenna2
+	'''
+	row1, column1 = antenna1
+	row2, column2 = antenna2
+	delta_row, delta_column = (row1 - row2, column1 - column2)
+			
 	antinodes = []
-	recipes = [(c1, 1), (c2, -1)] # add delta to c1, subtract from c2
+	recipes = [(antenna1, 1), (antenna2, -1)] # add delta to c1, subtract from c2
 	
-	for coord, factor in recipes:
-		antinode = (coord[0]+delta[0]*factor, coord[1]+delta[1]*factor)
-		if antinode in grid:
+	for antenna, factor in recipes:
+		row, column = antenna		
+		antinode = (row + delta_row*factor, column + delta_column*factor)
+		if is_valid(antinode, row_count, column_count):
 			antinodes.append(antinode)
 		
 	return antinodes
 
-(ant, grid) = read_file("input.txt")
+(antennas, row_count, column_count) = read_file("input.txt")
 antinodes = set()
 
-for freq, positions in ant.items():
-	for p in itertools.combinations(positions, 2):
-		antinodes.update(get_antinodes(*p, grid))
+for freq, positions in antennas.items():
+	for pair_of_antennas in itertools.combinations(positions, 2):
+		antinodes.update(get_antinodes(*pair_of_antennas, row_count, column_count))
 
 print(f"Number of antinodes: {len(antinodes)}")
 
