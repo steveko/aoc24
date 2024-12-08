@@ -37,7 +37,7 @@ OPS_PART_2 = [
 	lambda a, b: a*b,
 	lambda a, b: int(str(a)+str(b))
 	]
-												
+
 with open("test.txt") as file:
 	total = 0	
 	for line in file:
