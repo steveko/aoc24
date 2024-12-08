@@ -56,8 +56,8 @@ def get_antinodes(antenna1, antenna2, row_count, column_count):
 	
 	for antenna, step in recipes:
 		i = 0 						# starting at 0 includes the antenna position
+		row, column = antenna
 		while True:
-			row, column = antenna
 			antinode = (row + delta_row*i, column + delta_column*i)
 			if is_valid(antinode, row_count, column_count):
 				antinodes.append(antinode)
